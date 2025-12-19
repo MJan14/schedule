@@ -100,18 +100,30 @@
             filter: grayscale(0.5);
             transition: all 0.5s ease;
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+        }
     </style>
 </head>
 <body id="main-body" class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
 
     <div class="max-w-7xl mx-auto">
-        <header class="mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+        <header class="mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
                 <h1 class="text-3xl font-bold transition-colors duration-300" id="header-title">Weekly Schedule</h1>
                 <p class="text-opacity-70 mt-1 transition-colors duration-300" id="header-subtitle">Select a profile below</p>
             </div>
-            <div id="current-date-display" class="mt-4 md:mt-0 text-sm font-mono opacity-60">
-                <!-- Date will be inserted here -->
+            
+            <div class="flex flex-col items-center md:items-end gap-2">
+                <div id="current-date-display" class="text-sm font-mono opacity-60">
+                    <!-- Date will be inserted here -->
+                </div>
+                <button onclick="calculateTogetherTime()" class="bg-gradient-to-r from-pink-500 to-indigo-500 hover:from-pink-400 hover:to-indigo-400 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg transition-all transform hover:scale-105 flex items-center gap-2">
+                    ✨ Find Free Time
+                </button>
             </div>
         </header>
 
@@ -427,6 +439,29 @@
         </footer>
     </div>
 
+    <!-- Date Planner Modal -->
+    <div id="planner-modal" class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    ✨ Common Free Time
+                </h3>
+                <button onclick="closePlanner()" class="text-slate-400 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-slate-400 text-sm mb-4">Here are the times this week (7AM - 7PM) when both of you are free:</p>
+            <div id="planner-results" class="space-y-2 max-h-[60vh] overflow-y-auto pr-2">
+                <!-- Results injected here -->
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-700 text-center">
+                 <button onclick="closePlanner()" class="text-indigo-400 text-sm hover:text-indigo-300 font-medium">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Config for themes
         const themes = {
@@ -522,14 +557,19 @@
             }
         }
 
-        // --- Check Current Class Logic ---
+        // --- Check Current Class Logic & Progress Bar ---
         function checkLiveStatus() {
             const now = new Date();
             const currentDay = now.getDay();
             const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
             // Clear previous highlights
-            document.querySelectorAll('.live-now').forEach(el => el.classList.remove('live-now'));
+            document.querySelectorAll('.live-now').forEach(el => {
+                el.classList.remove('live-now');
+                // Remove progress bar if exists
+                const pb = el.querySelector('.progress-wrapper');
+                if (pb) pb.remove();
+            });
             document.querySelectorAll('.up-next').forEach(el => el.classList.remove('up-next'));
             document.querySelectorAll('.past-class').forEach(el => el.classList.remove('past-class'));
 
@@ -557,6 +597,27 @@
                             // Currently Live
                             card.classList.add('live-now');
                             hasLive = true;
+
+                            // Add Progress Bar if not present
+                            if (!card.querySelector('.progress-wrapper')) {
+                                const totalDuration = endMinutes - startMinutes;
+                                const elapsed = currentMinutes - startMinutes;
+                                const remaining = endMinutes - currentMinutes;
+                                const percent = (elapsed / totalDuration) * 100;
+
+                                const progressHTML = `
+                                    <div class="progress-wrapper mt-4 pt-3 border-t border-dashed border-opacity-30 border-white">
+                                        <div class="flex justify-between text-xs mb-1 font-semibold">
+                                            <span class="text-green-400">In Progress</span>
+                                            <span class="text-white opacity-90">${remaining}m left</span>
+                                        </div>
+                                        <div class="h-2 bg-slate-700 bg-opacity-50 rounded-full overflow-hidden">
+                                            <div class="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)] transition-all duration-1000 ease-linear" style="width: ${percent}%"></div>
+                                        </div>
+                                    </div>
+                                `;
+                                card.insertAdjacentHTML('beforeend', progressHTML);
+                            }
                         } else if (currentMinutes < startMinutes) {
                             // Future Class
                             const diff = startMinutes - currentMinutes;
@@ -576,6 +637,134 @@
                     nextClass.classList.add('up-next');
                 }
             });
+        }
+
+        // --- Together Time Calculator ---
+        function parseTime(timeStr) {
+            const [h, m] = timeStr.split(':').map(Number);
+            return h * 60 + m;
+        }
+
+        function formatTime(minutes) {
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const displayH = h % 12 || 12;
+            const displayM = m.toString().padStart(2, '0');
+            return `${displayH}:${displayM} ${ampm}`;
+        }
+
+        function calculateTogetherTime() {
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            // Map Day Name to Index in HTML IDs (Mon=1, Tue=2...)
+            const dayIndices = [1, 2, 3, 4, 5, 6]; 
+            const results = [];
+
+            const dayStart = 7 * 60; // 7:00 AM
+            const dayEnd = 19 * 60; // 7:00 PM
+
+            dayIndices.forEach((dayIdx, i) => {
+                const dayName = days[i];
+                
+                // Get Busy Slots for Alex
+                const alexBusy = [];
+                const alexContainer = document.getElementById(`alex-${dayIdx}`);
+                if (alexContainer) {
+                    alexContainer.querySelectorAll('.schedule-card').forEach(card => {
+                        alexBusy.push({
+                            start: parseTime(card.getAttribute('data-start')),
+                            end: parseTime(card.getAttribute('data-end'))
+                        });
+                    });
+                }
+
+                // Get Busy Slots for GF
+                const gfBusy = [];
+                const gfContainer = document.getElementById(`gf-${dayIdx}`);
+                if (gfContainer) {
+                    gfContainer.querySelectorAll('.schedule-card').forEach(card => {
+                        gfBusy.push({
+                            start: parseTime(card.getAttribute('data-start')),
+                            end: parseTime(card.getAttribute('data-end'))
+                        });
+                    });
+                }
+
+                // Create a timeline array (minutes)
+                // 0 = free, 1 = busy
+                const timeline = new Array(dayEnd - dayStart).fill(0);
+
+                const markBusy = (slots) => {
+                    slots.forEach(slot => {
+                        const s = Math.max(slot.start, dayStart) - dayStart;
+                        const e = Math.min(slot.end, dayEnd) - dayStart;
+                        for (let t = s; t < e; t++) {
+                            if (t >= 0 && t < timeline.length) timeline[t] = 1;
+                        }
+                    });
+                };
+
+                markBusy(alexBusy);
+                markBusy(gfBusy);
+
+                // Find gaps > 60 mins
+                let freeStart = null;
+                const freeSlots = [];
+
+                for (let t = 0; t <= timeline.length; t++) {
+                    if (t < timeline.length && timeline[t] === 0) {
+                        if (freeStart === null) freeStart = t;
+                    } else {
+                        if (freeStart !== null) {
+                            const duration = t - freeStart;
+                            if (duration >= 60) {
+                                freeSlots.push({
+                                    start: freeStart + dayStart,
+                                    end: t + dayStart,
+                                    duration: duration
+                                });
+                            }
+                            freeStart = null;
+                        }
+                    }
+                }
+
+                if (freeSlots.length > 0) {
+                    results.push({ day: dayName, slots: freeSlots });
+                }
+            });
+
+            // Display Results
+            const resultsContainer = document.getElementById('planner-results');
+            resultsContainer.innerHTML = '';
+
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<div class="text-center text-slate-500 py-4">No common free time found this week! 😢</div>';
+            } else {
+                results.forEach(res => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'font-bold text-indigo-300 mt-3 mb-1 border-b border-slate-700 pb-1';
+                    dayHeader.innerText = res.day;
+                    resultsContainer.appendChild(dayHeader);
+
+                    res.slots.forEach(slot => {
+                        const slotDiv = document.createElement('div');
+                        slotDiv.className = 'bg-slate-700 p-2 rounded flex justify-between items-center';
+                        slotDiv.innerHTML = `
+                            <span class="text-white text-sm">${formatTime(slot.start)} - ${formatTime(slot.end)}</span>
+                            <span class="text-xs bg-green-900 text-green-300 px-2 py-0.5 rounded-full">${Math.floor(slot.duration / 60)}h ${slot.duration % 60}m</span>
+                        `;
+                        resultsContainer.appendChild(slotDiv);
+                    });
+                });
+            }
+
+            // Open Modal
+            document.getElementById('planner-modal').classList.remove('hidden');
+        }
+
+        function closePlanner() {
+            document.getElementById('planner-modal').classList.add('hidden');
         }
 
 
