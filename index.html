@@ -20,6 +20,20 @@
             100% { border-color: rgba(255, 255, 255, 0.1); }
         }
         
+        /* Live Now Animation */
+        @keyframes pulse-live {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); border-color: rgba(34, 197, 94, 0.8); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); border-color: rgba(34, 197, 94, 0.8); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); border-color: rgba(34, 197, 94, 0.8); }
+        }
+        
+        /* Up Next Animation */
+        @keyframes pulse-next {
+            0% { border-color: rgba(245, 158, 11, 0.4); }
+            50% { border-color: rgba(245, 158, 11, 1); }
+            100% { border-color: rgba(245, 158, 11, 0.4); }
+        }
+
         .today-highlight-alex {
             border: 2px solid #818cf8; /* Indigo-400 */
             background-color: rgba(49, 46, 129, 0.2);
@@ -34,6 +48,57 @@
             border-radius: 1rem;
             padding: 0.5rem;
             margin: -0.5rem;
+        }
+
+        /* The Live Class Style */
+        .live-now {
+            animation: pulse-live 2s infinite;
+            border: 2px solid #22c55e !important; /* Green-500 */
+            position: relative;
+            z-index: 10;
+        }
+
+        .live-now::after {
+            content: "LIVE NOW";
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: #22c55e;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 9999px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* The Up Next Style */
+        .up-next {
+            animation: pulse-next 3s infinite;
+            border: 2px dashed #f59e0b !important; /* Amber-500 */
+            position: relative;
+            opacity: 1 !important; /* Force opacity incase it was dimmed */
+        }
+
+        .up-next::after {
+            content: "UP NEXT";
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: #f59e0b;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 9999px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Past Class Style */
+        .past-class {
+            opacity: 0.5;
+            filter: grayscale(0.5);
+            transition: all 0.5s ease;
         }
     </style>
 </head>
@@ -82,28 +147,28 @@
                         MON
                     </div>
                     
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-indigo-500 card-transition hover:bg-slate-750">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-indigo-500 card-transition hover:bg-slate-750" data-start="07:30" data-end="09:00">
                         <div class="text-xs font-bold text-indigo-400 mb-1">7:30 AM - 9:00 AM</div>
                         <h3 class="font-bold text-white leading-tight">Purposive Communication</h3>
                         <div class="text-sm text-slate-400 mt-1">GE 1106</div>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F402</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-pink-600 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-pink-600 card-transition" data-start="09:00" data-end="10:30">
                         <div class="text-xs font-bold text-pink-400 mb-1">9:00 AM - 10:30 AM</div>
                         <h3 class="font-bold text-white leading-tight">Art Appreciation</h3>
                         <div class="text-sm text-slate-400 mt-1">GE 1107</div>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F408</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-amber-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-amber-500 card-transition" data-start="12:00" data-end="13:30">
                         <div class="text-xs font-bold text-amber-400 mb-1">12:00 PM - 1:30 PM</div>
                         <h3 class="font-bold text-white leading-tight">Understanding The Self</h3>
                         <div class="text-sm text-slate-400 mt-1">GE 1105</div>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F311</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-teal-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-teal-500 card-transition" data-start="13:30" data-end="15:00">
                         <div class="text-xs font-bold text-teal-400 mb-1">1:30 PM - 3:00 PM</div>
                         <h3 class="font-bold text-white leading-tight">Math in the Modern World</h3>
                         <div class="text-sm text-slate-400 mt-1">GE 1108</div>
@@ -117,21 +182,21 @@
                         TUE
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-blue-600 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-blue-600 card-transition" data-start="10:30" data-end="12:00">
                         <div class="text-xs font-bold text-blue-400 mb-1">10:30 AM - 12:00 PM</div>
                         <h3 class="font-bold text-white leading-tight">Discrete Structures 1</h3>
                         <div class="text-sm text-slate-400 mt-1">CS 1232</div>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room C202</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-purple-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-purple-500 card-transition" data-start="13:30" data-end="15:00">
                         <div class="text-xs font-bold text-purple-400 mb-1">1:30 PM - 3:00 PM</div>
                         <h3 class="font-bold text-white leading-tight">Intermediate Programming</h3>
                         <div class="text-sm text-slate-400 mt-1">CS 1233</div>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F613C</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-orange-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-orange-500 card-transition" data-start="15:30" data-end="17:30">
                         <div class="text-xs font-bold text-orange-400 mb-1">3:30 PM - 5:30 PM</div>
                         <h3 class="font-bold text-white leading-tight">1st Year Social Formation 2</h3>
                         <div class="text-sm text-slate-400 mt-1">ASF 1202</div>
@@ -145,25 +210,25 @@
                         WED
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-indigo-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-indigo-500 card-transition" data-start="07:30" data-end="09:00">
                         <div class="text-xs font-bold text-indigo-400 mb-1">7:30 AM - 9:00 AM</div>
                         <h3 class="font-bold text-white leading-tight">Purposive Communication</h3>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F402</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-pink-600 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-pink-600 card-transition" data-start="09:00" data-end="10:30">
                         <div class="text-xs font-bold text-pink-400 mb-1">9:00 AM - 10:30 AM</div>
                         <h3 class="font-bold text-white leading-tight">Art Appreciation</h3>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F408</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-amber-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-amber-500 card-transition" data-start="12:00" data-end="13:30">
                         <div class="text-xs font-bold text-amber-400 mb-1">12:00 PM - 1:30 PM</div>
                         <h3 class="font-bold text-white leading-tight">Understanding The Self</h3>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F311</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-teal-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-teal-500 card-transition" data-start="13:30" data-end="15:00">
                         <div class="text-xs font-bold text-teal-400 mb-1">1:30 PM - 3:00 PM</div>
                         <h3 class="font-bold text-white leading-tight">Math in the Modern World</h3>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room J203</div>
@@ -176,19 +241,19 @@
                         THU
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-blue-600 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-blue-600 card-transition" data-start="10:30" data-end="12:00">
                         <div class="text-xs font-bold text-blue-400 mb-1">10:30 AM - 12:00 PM</div>
                         <h3 class="font-bold text-white leading-tight">Discrete Structures 1</h3>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room C202</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-purple-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-purple-500 card-transition" data-start="13:30" data-end="15:00">
                         <div class="text-xs font-bold text-purple-400 mb-1">1:30 PM - 3:00 PM</div>
                         <h3 class="font-bold text-white leading-tight">Intermediate Programming</h3>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F613C</div>
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-emerald-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-emerald-500 card-transition" data-start="15:30" data-end="17:30">
                         <div class="text-xs font-bold text-emerald-400 mb-1">3:30 PM - 5:30 PM</div>
                         <h3 class="font-bold text-white leading-tight">PATH-FIT II</h3>
                         <div class="text-sm text-slate-400 mt-1">PE 1215</div>
@@ -202,7 +267,7 @@
                         FRI
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-purple-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-purple-500 card-transition" data-start="13:30" data-end="15:30">
                         <div class="text-xs font-bold text-purple-400 mb-1">1:30 PM - 3:30 PM</div>
                         <h3 class="font-bold text-white leading-tight">Intermediate Programming</h3>
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F613C</div>
@@ -216,7 +281,7 @@
                         SAT
                     </div>
 
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-red-500 card-transition">
+                    <div class="schedule-card bg-slate-800 p-4 rounded-xl shadow-lg border-l-4 border-red-500 card-transition" data-start="08:30" data-end="11:30">
                         <div class="text-xs font-bold text-red-400 mb-1">8:30 AM - 11:30 AM</div>
                         <h3 class="font-bold text-white leading-tight">CWTS</h3>
                         <div class="text-sm text-slate-400 mt-1">NSTP 2</div>
@@ -251,28 +316,28 @@
                         TUE
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="07:30" data-end="09:00">
                         <div class="text-xs font-bold text-fuchsia-500 mb-1">7:30 AM - 9:00 AM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Biopsychology</h3>
                         <div class="text-sm text-rose-400 mt-1">PSY 1204</div>
                         <div class="mt-2 text-xs bg-fuchsia-50 text-fuchsia-600 inline-block px-2 py-1 rounded-full border border-fuchsia-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="10:30" data-end="12:00">
                         <div class="text-xs font-bold text-violet-500 mb-1">10:30 AM - 12:00 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Theories of Personality</h3>
                         <div class="text-sm text-rose-400 mt-1">PSY 1205</div>
                         <div class="mt-2 text-xs bg-violet-50 text-violet-600 inline-block px-2 py-1 rounded-full border border-violet-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="13:00" data-end="14:30">
                         <div class="text-xs font-bold text-pink-500 mb-1">1:00 PM - 2:30 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Developmental Psychology</h3>
                         <div class="text-sm text-rose-400 mt-1">PSY 1203</div>
                         <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="16:00" data-end="17:30">
                         <div class="text-xs font-bold text-rose-500 mb-1">4:00 PM - 5:30 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Indigenous Psychology</h3>
                         <div class="text-sm text-rose-400 mt-1">PSY 1206</div>
@@ -286,28 +351,28 @@
                         THU
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="07:30" data-end="09:00">
                         <div class="text-xs font-bold text-fuchsia-500 mb-1">7:30 AM - 9:00 AM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Biopsychology</h3>
                         <div class="text-sm text-rose-400 mt-1">PSY 1204</div>
                         <div class="mt-2 text-xs bg-fuchsia-50 text-fuchsia-600 inline-block px-2 py-1 rounded-full border border-fuchsia-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="10:30" data-end="12:00">
                         <div class="text-xs font-bold text-violet-500 mb-1">10:30 AM - 12:00 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Theories of Personality</h3>
                         <div class="text-sm text-rose-400 mt-1">PSY 1205</div>
                         <div class="mt-2 text-xs bg-violet-50 text-violet-600 inline-block px-2 py-1 rounded-full border border-violet-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="13:00" data-end="14:30">
                         <div class="text-xs font-bold text-pink-500 mb-1">1:00 PM - 2:30 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Developmental Psychology</h3>
                         <div class="text-sm text-rose-400 mt-1">PSY 1203</div>
                         <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="16:00" data-end="17:30">
                         <div class="text-xs font-bold text-rose-500 mb-1">4:00 PM - 5:30 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Indigenous Psychology</h3>
                         <div class="text-sm text-rose-400 mt-1">PSY 1206</div>
@@ -321,21 +386,21 @@
                         FRI
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="08:00" data-end="10:00">
                         <div class="text-xs font-bold text-emerald-500 mb-1">8:00 AM - 10:00 AM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">PATH-FIT II</h3>
                         <div class="text-sm text-rose-400 mt-1">PE 1215</div>
                         <div class="mt-2 text-xs bg-emerald-50 text-emerald-600 inline-block px-2 py-1 rounded-full border border-emerald-100">Covered Court A</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="10:30" data-end="13:30">
                         <div class="text-xs font-bold text-teal-500 mb-1">10:30 AM - 1:30 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Science, Tech & Society</h3>
                         <div class="text-sm text-rose-400 mt-1">GE 1109</div>
                         <div class="mt-2 text-xs bg-teal-50 text-teal-600 inline-block px-2 py-1 rounded-full border border-teal-100">Room F406</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                    <div class="schedule-card bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300" data-start="14:30" data-end="17:30">
                         <div class="text-xs font-bold text-amber-500 mb-1">2:30 PM - 5:30 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Life and Works of Rizal</h3>
                         <div class="text-sm text-rose-400 mt-1">RIZ 1101</div>
@@ -457,11 +522,72 @@
             }
         }
 
+        // --- Check Current Class Logic ---
+        function checkLiveStatus() {
+            const now = new Date();
+            const currentDay = now.getDay();
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+            // Clear previous highlights
+            document.querySelectorAll('.live-now').forEach(el => el.classList.remove('live-now'));
+            document.querySelectorAll('.up-next').forEach(el => el.classList.remove('up-next'));
+            document.querySelectorAll('.past-class').forEach(el => el.classList.remove('past-class'));
+
+            // Select appropriate container based on current day
+            const activeContainers = document.querySelectorAll(`[id$='-${currentDay}']`);
+            
+            activeContainers.forEach(container => {
+                const cards = container.querySelectorAll('.schedule-card');
+                let hasLive = false;
+                let nextClass = null;
+                let minDiff = Infinity;
+
+                cards.forEach(card => {
+                    const start = card.getAttribute('data-start');
+                    const end = card.getAttribute('data-end');
+                    
+                    if (start && end) {
+                        const [startH, startM] = start.split(':').map(Number);
+                        const [endH, endM] = end.split(':').map(Number);
+                        
+                        const startMinutes = startH * 60 + startM;
+                        const endMinutes = endH * 60 + endM;
+                        
+                        if (currentMinutes >= startMinutes && currentMinutes < endMinutes) {
+                            // Currently Live
+                            card.classList.add('live-now');
+                            hasLive = true;
+                        } else if (currentMinutes < startMinutes) {
+                            // Future Class
+                            const diff = startMinutes - currentMinutes;
+                            if (diff < minDiff) {
+                                minDiff = diff;
+                                nextClass = card;
+                            }
+                        } else {
+                            // Past Class
+                            card.classList.add('past-class');
+                        }
+                    }
+                });
+
+                // Only show "Up Next" if nothing is currently live
+                if (!hasLive && nextClass) {
+                    nextClass.classList.add('up-next');
+                }
+            });
+        }
+
+
         document.addEventListener('DOMContentLoaded', () => {
             const savedProfile = localStorage.getItem('activeProfile') || 'alex';
             switchTheme(savedProfile);
             highlightToday();
             setupNotes();
+            
+            // Run live status check immediately and then every minute
+            checkLiveStatus();
+            setInterval(checkLiveStatus, 60000);
         });
     </script>
 
