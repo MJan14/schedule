@@ -11,14 +11,43 @@
         
         /* Smooth transitions for everything */
         .card-transition { transition: all 0.3s ease; }
+        .card-transition:hover { transform: translateY(-2px); }
+        
+        /* Today Highlight Animation */
+        @keyframes pulse-border {
+            0% { border-color: rgba(255, 255, 255, 0.1); }
+            50% { border-color: rgba(255, 255, 255, 0.5); }
+            100% { border-color: rgba(255, 255, 255, 0.1); }
+        }
+        
+        .today-highlight-alex {
+            border: 2px solid #818cf8; /* Indigo-400 */
+            background-color: rgba(49, 46, 129, 0.2);
+            border-radius: 1rem;
+            padding: 0.5rem;
+            margin: -0.5rem;
+        }
+
+        .today-highlight-gf {
+            border: 2px solid #f472b6; /* Pink-400 */
+            background-color: rgba(253, 224, 247, 0.5);
+            border-radius: 1rem;
+            padding: 0.5rem;
+            margin: -0.5rem;
+        }
     </style>
 </head>
 <body id="main-body" class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
 
     <div class="max-w-7xl mx-auto">
-        <header class="mb-8 text-center md:text-left">
-            <h1 class="text-3xl font-bold transition-colors duration-300" id="header-title">Weekly Schedule</h1>
-            <p class="text-opacity-70 mt-1 transition-colors duration-300" id="header-subtitle">Select a profile below</p>
+        <header class="mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold transition-colors duration-300" id="header-title">Weekly Schedule</h1>
+                <p class="text-opacity-70 mt-1 transition-colors duration-300" id="header-subtitle">Select a profile below</p>
+            </div>
+            <div id="current-date-display" class="mt-4 md:mt-0 text-sm font-mono opacity-60">
+                <!-- Date will be inserted here -->
+            </div>
         </header>
 
         <!-- Tab Navigation -->
@@ -45,10 +74,10 @@
         <!--        ALEX'S SCHEDULE (DARK MODE)         -->
         <!-- ========================================== -->
         <div id="content-my" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-6">
 
                 <!-- MONDAY -->
-                <div class="flex flex-col gap-3">
+                <div id="alex-1" class="flex flex-col gap-3">
                     <div class="bg-slate-800 text-indigo-300 border border-slate-700 p-3 rounded-lg text-center font-bold shadow-lg">
                         MON
                     </div>
@@ -83,7 +112,7 @@
                 </div>
 
                 <!-- TUESDAY -->
-                <div class="flex flex-col gap-3">
+                <div id="alex-2" class="flex flex-col gap-3">
                     <div class="bg-slate-800 text-indigo-300 border border-slate-700 p-3 rounded-lg text-center font-bold shadow-lg">
                         TUE
                     </div>
@@ -111,7 +140,7 @@
                 </div>
 
                 <!-- WEDNESDAY -->
-                <div class="flex flex-col gap-3">
+                <div id="alex-3" class="flex flex-col gap-3">
                     <div class="bg-slate-800 text-indigo-300 border border-slate-700 p-3 rounded-lg text-center font-bold shadow-lg">
                         WED
                     </div>
@@ -142,7 +171,7 @@
                 </div>
 
                 <!-- THURSDAY -->
-                <div class="flex flex-col gap-3">
+                <div id="alex-4" class="flex flex-col gap-3">
                     <div class="bg-slate-800 text-indigo-300 border border-slate-700 p-3 rounded-lg text-center font-bold shadow-lg">
                         THU
                     </div>
@@ -168,7 +197,7 @@
                 </div>
 
                 <!-- FRIDAY -->
-                <div class="flex flex-col gap-3">
+                <div id="alex-5" class="flex flex-col gap-3">
                     <div class="bg-slate-800 text-indigo-300 border border-slate-700 p-3 rounded-lg text-center font-bold shadow-lg">
                         FRI
                     </div>
@@ -182,7 +211,7 @@
                 </div>
 
                 <!-- SATURDAY -->
-                <div class="flex flex-col gap-3">
+                <div id="alex-6" class="flex flex-col gap-3">
                     <div class="bg-slate-800 text-indigo-300 border border-slate-700 p-3 rounded-lg text-center font-bold shadow-lg">
                         SAT
                     </div>
@@ -194,6 +223,18 @@
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F404</div>
                     </div>
                 </div>
+                
+                 <!-- REMINDERS (ALEX) -->
+                 <div class="flex flex-col gap-3">
+                    <div class="bg-slate-700 text-slate-300 border border-slate-600 p-3 rounded-lg text-center font-bold shadow-lg flex items-center justify-center gap-2">
+                        <span>📝</span> Reminders
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border border-slate-700 flex-grow flex flex-col">
+                         <textarea id="notes-alex" class="w-full h-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 resize-none min-h-[200px]" placeholder="Add notes here... (e.g., Work schedule, deadlines)"></textarea>
+                         <div class="text-xs text-slate-500 mt-2 text-right">Saves automatically</div>
+                    </div>
+                 </div>
+
             </div>
         </div>
 
@@ -202,145 +243,116 @@
         <!--        GIRLFRIEND'S SCHEDULE (PINK MODE)   -->
         <!-- ========================================== -->
         <div id="content-gf" class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-
-                <!-- MONDAY (GF) -->
-                <div class="flex flex-col gap-3">
-                    <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest">
-                        MON
-                    </div>
-
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-pink-500 mb-1">9:00 AM - 10:30 AM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Psychological Statistics</h3>
-                        <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room J301B</div>
-                    </div>
-                    
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-cyan-500 mb-1">12:00 PM - 1:30 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Purposive Communication</h3>
-                        <div class="mt-2 text-xs bg-cyan-50 text-cyan-600 inline-block px-2 py-1 rounded-full border border-cyan-100">Room F400</div>
-                    </div>
-
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-pink-500 mb-1">1:30 PM - 3:00 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Art Appreciation</h3>
-                        <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room F712</div>
-                    </div>
-
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-emerald-500 mb-1">6:00 PM - 8:00 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">PATHFIT</h3>
-                        <div class="mt-2 text-xs bg-emerald-50 text-emerald-600 inline-block px-2 py-1 rounded-full border border-emerald-100">PE Dept</div>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
                 <!-- TUESDAY (GF) -->
-                <div class="flex flex-col gap-3">
+                <div id="gf-2" class="flex flex-col gap-3">
                     <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest">
                         TUE
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-fuchsia-500 mb-1">7:30 AM - 9:00 AM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">Biopsychology</h3>
+                        <div class="text-sm text-rose-400 mt-1">PSY 1204</div>
+                        <div class="mt-2 text-xs bg-fuchsia-50 text-fuchsia-600 inline-block px-2 py-1 rounded-full border border-fuchsia-100">Room F405</div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
                         <div class="text-xs font-bold text-violet-500 mb-1">10:30 AM - 12:00 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Theories of Personality</h3>
-                        <div class="mt-2 text-xs bg-violet-50 text-violet-600 inline-block px-2 py-1 rounded-full border border-violet-100">Major Subj</div>
+                        <div class="text-sm text-rose-400 mt-1">PSY 1205</div>
+                        <div class="mt-2 text-xs bg-violet-50 text-violet-600 inline-block px-2 py-1 rounded-full border border-violet-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-teal-500 mb-1">1:30 PM - 3:00 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Mathematics</h3>
-                        <div class="mt-2 text-xs bg-teal-50 text-teal-600 inline-block px-2 py-1 rounded-full border border-teal-100">GE Subj</div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-pink-500 mb-1">1:00 PM - 2:30 PM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">Developmental Psychology</h3>
+                        <div class="text-sm text-rose-400 mt-1">PSY 1203</div>
+                        <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-amber-500 mb-1">3:00 PM - 4:30 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Understanding The Self</h3>
-                        <div class="mt-2 text-xs bg-amber-50 text-amber-600 inline-block px-2 py-1 rounded-full border border-amber-100">GE Subj</div>
-                    </div>
-                </div>
-
-                <!-- WEDNESDAY (GF) -->
-                <div class="flex flex-col gap-3">
-                    <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest">
-                        WED
-                    </div>
-
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-pink-500 mb-1">9:00 AM - 10:30 AM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Psychological Statistics</h3>
-                        <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room J301B</div>
-                    </div>
-                    
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-cyan-500 mb-1">12:00 PM - 1:30 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Purposive Communication</h3>
-                        <div class="mt-2 text-xs bg-cyan-50 text-cyan-600 inline-block px-2 py-1 rounded-full border border-cyan-100">Room F400</div>
-                    </div>
-
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-pink-500 mb-1">1:30 PM - 3:00 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Art Appreciation</h3>
-                        <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room F712</div>
-                    </div>
-
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-orange-400 mb-1">6:00 PM - 8:00 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">1st Year Social Formation</h3>
-                        <div class="mt-2 text-xs bg-orange-50 text-orange-600 inline-block px-2 py-1 rounded-full border border-orange-100">FYSF</div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-rose-500 mb-1">4:00 PM - 5:30 PM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">Indigenous Psychology</h3>
+                        <div class="text-sm text-rose-400 mt-1">PSY 1206</div>
+                        <div class="mt-2 text-xs bg-rose-50 text-rose-600 inline-block px-2 py-1 rounded-full border border-rose-100">Room F405</div>
                     </div>
                 </div>
 
                 <!-- THURSDAY (GF) -->
-                <div class="flex flex-col gap-3">
+                <div id="gf-4" class="flex flex-col gap-3">
                     <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest">
                         THU
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-fuchsia-500 mb-1">7:30 AM - 9:00 AM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">Biopsychology</h3>
+                        <div class="text-sm text-rose-400 mt-1">PSY 1204</div>
+                        <div class="mt-2 text-xs bg-fuchsia-50 text-fuchsia-600 inline-block px-2 py-1 rounded-full border border-fuchsia-100">Room F405</div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
                         <div class="text-xs font-bold text-violet-500 mb-1">10:30 AM - 12:00 PM</div>
                         <h3 class="font-bold text-rose-900 leading-tight">Theories of Personality</h3>
-                        <div class="mt-2 text-xs bg-violet-50 text-violet-600 inline-block px-2 py-1 rounded-full border border-violet-100">Major Subj</div>
+                        <div class="text-sm text-rose-400 mt-1">PSY 1205</div>
+                        <div class="mt-2 text-xs bg-violet-50 text-violet-600 inline-block px-2 py-1 rounded-full border border-violet-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-fuchsia-500 mb-1">1:30 PM - 3:00 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Math</h3>
-                        <div class="mt-2 text-xs bg-fuchsia-50 text-fuchsia-600 inline-block px-2 py-1 rounded-full border border-fuchsia-100">Room F712</div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-pink-500 mb-1">1:00 PM - 2:30 PM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">Developmental Psychology</h3>
+                        <div class="text-sm text-rose-400 mt-1">PSY 1203</div>
+                        <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room F405</div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-amber-500 mb-1">3:00 PM - 4:30 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Understanding The Self</h3>
-                        <div class="mt-2 text-xs bg-amber-50 text-amber-600 inline-block px-2 py-1 rounded-full border border-amber-100">GE Subj</div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-rose-500 mb-1">4:00 PM - 5:30 PM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">Indigenous Psychology</h3>
+                        <div class="text-sm text-rose-400 mt-1">PSY 1206</div>
+                        <div class="mt-2 text-xs bg-rose-50 text-rose-600 inline-block px-2 py-1 rounded-full border border-rose-100">Room F405</div>
                     </div>
                 </div>
 
                 <!-- FRIDAY (GF) -->
-                <div class="flex flex-col gap-3">
+                <div id="gf-5" class="flex flex-col gap-3">
                     <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest">
                         FRI
                     </div>
 
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-pink-500 mb-1">10:00 AM - 12:00 PM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">Psychological Statistics</h3>
-                        <div class="mt-2 text-xs bg-pink-50 text-pink-600 inline-block px-2 py-1 rounded-full border border-pink-100">Room F302</div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-emerald-500 mb-1">8:00 AM - 10:00 AM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">PATH-FIT II</h3>
+                        <div class="text-sm text-rose-400 mt-1">PE 1215</div>
+                        <div class="mt-2 text-xs bg-emerald-50 text-emerald-600 inline-block px-2 py-1 rounded-full border border-emerald-100">Covered Court A</div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-teal-500 mb-1">10:30 AM - 1:30 PM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">Science, Tech & Society</h3>
+                        <div class="text-sm text-rose-400 mt-1">GE 1109</div>
+                        <div class="mt-2 text-xs bg-teal-50 text-teal-600 inline-block px-2 py-1 rounded-full border border-teal-100">Room F406</div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition hover:border-pink-300">
+                        <div class="text-xs font-bold text-amber-500 mb-1">2:30 PM - 5:30 PM</div>
+                        <h3 class="font-bold text-rose-900 leading-tight">Life and Works of Rizal</h3>
+                        <div class="text-sm text-rose-400 mt-1">RIZ 1101</div>
+                        <div class="mt-2 text-xs bg-amber-50 text-amber-600 inline-block px-2 py-1 rounded-full border border-amber-100">Room F406</div>
                     </div>
                 </div>
 
-                <!-- SATURDAY (GF) -->
+                <!-- REMINDERS (GF) -->
                 <div class="flex flex-col gap-3">
-                    <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest">
-                        SAT
+                    <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest flex items-center justify-center gap-2">
+                        <span>🌸</span> Notes
                     </div>
-
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 card-transition">
-                        <div class="text-xs font-bold text-red-400 mb-1">8:30 AM - 11:30 AM</div>
-                        <h3 class="font-bold text-rose-900 leading-tight">CWTS</h3>
-                        <div class="mt-2 text-xs bg-red-50 text-red-500 inline-block px-2 py-1 rounded-full border border-red-100">NSTP</div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 flex-grow flex flex-col">
+                         <textarea id="notes-gf" class="w-full h-full bg-pink-50 border border-pink-200 rounded-xl p-3 text-sm text-rose-900 focus:outline-none focus:border-pink-400 resize-none min-h-[200px]" placeholder="Write variable work hours or plans here..."></textarea>
+                         <div class="text-xs text-pink-400 mt-2 text-right">Saves automatically</div>
                     </div>
-                </div>
+                 </div>
 
             </div>
         </div>
@@ -402,12 +414,56 @@
             localStorage.setItem('activeProfile', person);
         }
 
+        function highlightToday() {
+            const date = new Date();
+            const dayIndex = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date-display').innerText = date.toLocaleDateString('en-US', options);
+
+            // IDs are format: alex-{dayIndex}, gf-{dayIndex}
+            // Check Alex's column
+            const alexCol = document.getElementById(`alex-${dayIndex}`);
+            if (alexCol) {
+                alexCol.classList.add('today-highlight-alex');
+            }
+
+            // Check GF's column
+            const gfCol = document.getElementById(`gf-${dayIndex}`);
+            if (gfCol) {
+                gfCol.classList.add('today-highlight-gf');
+            }
+        }
+
+        // --- Sticky Notes Logic ---
+        function setupNotes() {
+            const alexNote = document.getElementById('notes-alex');
+            const gfNote = document.getElementById('notes-gf');
+
+            // Load saved notes
+            if (alexNote) alexNote.value = localStorage.getItem('notes_alex') || '';
+            if (gfNote) gfNote.value = localStorage.getItem('notes_gf') || '';
+
+            // Add event listeners to save on input
+            if (alexNote) {
+                alexNote.addEventListener('input', (e) => {
+                    localStorage.setItem('notes_alex', e.target.value);
+                });
+            }
+            if (gfNote) {
+                gfNote.addEventListener('input', (e) => {
+                    localStorage.setItem('notes_gf', e.target.value);
+                });
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const savedProfile = localStorage.getItem('activeProfile') || 'alex';
             switchTheme(savedProfile);
+            highlightToday();
+            setupNotes();
         });
     </script>
 
 </body>
 </html>
-
