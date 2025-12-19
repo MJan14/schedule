@@ -151,7 +151,7 @@
         <!--        ALEX'S SCHEDULE (DARK MODE)         -->
         <!-- ========================================== -->
         <div id="content-my" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
 
                 <!-- MONDAY -->
                 <div id="alex-1" class="flex flex-col gap-3">
@@ -301,17 +301,6 @@
                     </div>
                 </div>
                 
-                 <!-- REMINDERS (ALEX) -->
-                 <div class="flex flex-col gap-3">
-                    <div class="bg-slate-700 text-slate-300 border border-slate-600 p-3 rounded-lg text-center font-bold shadow-lg flex items-center justify-center gap-2">
-                        <span>📝</span> Reminders
-                    </div>
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-lg border border-slate-700 flex-grow flex flex-col">
-                         <textarea id="notes-alex" class="w-full h-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 resize-none min-h-[200px]" placeholder="Add notes here... (e.g., Work schedule, deadlines)"></textarea>
-                         <div class="text-xs text-slate-500 mt-2 text-right">Saves automatically</div>
-                    </div>
-                 </div>
-
             </div>
         </div>
 
@@ -320,7 +309,7 @@
         <!--        GIRLFRIEND'S SCHEDULE (PINK MODE)   -->
         <!-- ========================================== -->
         <div id="content-gf" class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
 
                 <!-- TUESDAY (GF) -->
                 <div id="gf-2" class="flex flex-col gap-3">
@@ -419,17 +408,6 @@
                         <div class="mt-2 text-xs bg-amber-50 text-amber-600 inline-block px-2 py-1 rounded-full border border-amber-100">Room F406</div>
                     </div>
                 </div>
-
-                <!-- REMINDERS (GF) -->
-                <div class="flex flex-col gap-3">
-                    <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest flex items-center justify-center gap-2">
-                        <span>🌸</span> Notes
-                    </div>
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 flex-grow flex flex-col">
-                         <textarea id="notes-gf" class="w-full h-full bg-pink-50 border border-pink-200 rounded-xl p-3 text-sm text-rose-900 focus:outline-none focus:border-pink-400 resize-none min-h-[200px]" placeholder="Write variable work hours or plans here..."></textarea>
-                         <div class="text-xs text-pink-400 mt-2 text-right">Saves automatically</div>
-                    </div>
-                 </div>
 
             </div>
         </div>
@@ -532,28 +510,6 @@
             const gfCol = document.getElementById(`gf-${dayIndex}`);
             if (gfCol) {
                 gfCol.classList.add('today-highlight-gf');
-            }
-        }
-
-        // --- Sticky Notes Logic ---
-        function setupNotes() {
-            const alexNote = document.getElementById('notes-alex');
-            const gfNote = document.getElementById('notes-gf');
-
-            // Load saved notes
-            if (alexNote) alexNote.value = localStorage.getItem('notes_alex') || '';
-            if (gfNote) gfNote.value = localStorage.getItem('notes_gf') || '';
-
-            // Add event listeners to save on input
-            if (alexNote) {
-                alexNote.addEventListener('input', (e) => {
-                    localStorage.setItem('notes_alex', e.target.value);
-                });
-            }
-            if (gfNote) {
-                gfNote.addEventListener('input', (e) => {
-                    localStorage.setItem('notes_gf', e.target.value);
-                });
             }
         }
 
@@ -772,7 +728,6 @@
             const savedProfile = localStorage.getItem('activeProfile') || 'alex';
             switchTheme(savedProfile);
             highlightToday();
-            setupNotes();
             
             // Run live status check immediately and then every minute
             checkLiveStatus();
