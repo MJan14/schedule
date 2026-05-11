@@ -151,7 +151,7 @@
         <!--        ALEX'S SCHEDULE (DARK MODE)         -->
         <!-- ========================================== -->
         <div id="content-my" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
 
                 <!-- MONDAY -->
                 <div id="alex-1" class="flex flex-col gap-3">
@@ -247,14 +247,6 @@
                         <div class="mt-2 text-xs bg-slate-700 inline-block px-2 py-1 rounded text-slate-300">Room F311</div>
                     </div>
                 </div>
-
-                <!-- SATURDAY -->
-                <div id="alex-6" class="flex flex-col gap-3">
-                    <div class="bg-slate-800 text-indigo-300 border border-slate-700 p-3 rounded-lg text-center font-bold shadow-lg">
-                        SAT
-                    </div>
-                    <!-- Empty -->
-                </div>
             </div>
         </div>
 
@@ -263,7 +255,7 @@
         <!--        SUMMER'S SCHEDULE (PINK MODE)       -->
         <!-- ========================================== -->
         <div id="content-gf" class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
 
                 <!-- MONDAY (GF) -->
                 <div id="gf-1" class="flex flex-col gap-3">
@@ -301,14 +293,6 @@
                 <div id="gf-5" class="flex flex-col gap-3">
                     <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest">
                         FRI
-                    </div>
-                    <!-- Empty -->
-                </div>
-
-                <!-- SATURDAY (GF) -->
-                <div id="gf-6" class="flex flex-col gap-3">
-                    <div class="bg-pink-300 text-white p-3 rounded-2xl text-center font-bold shadow-md tracking-widest">
-                        SAT
                     </div>
                     <!-- Empty -->
                 </div>
@@ -515,9 +499,9 @@
         }
 
         function calculateTogetherTime() {
-            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
             // Map Day Name to Index in HTML IDs (Mon=1, Tue=2...)
-            const dayIndices = [1, 2, 3, 4, 5, 6]; 
+            const dayIndices = [1, 2, 3, 4, 5]; 
             const results = [];
 
             const dayStart = 7 * 60; // 7:00 AM
